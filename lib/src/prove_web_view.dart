@@ -13,7 +13,10 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 const _loggerName = 'MonoProveWidgetLogger';
 
+/// This widget provides the interface for managing user identity
+/// verification via Mono Prove.
 class ProveWebView extends StatefulWidget {
+  /// Creates a [ProveWebView] instance for integrating Mono Prove within the application.
   const ProveWebView({
     required this.sessionId,
     required this.onSuccess,
@@ -24,19 +27,36 @@ class ProveWebView extends StatefulWidget {
     this.onClose,
   });
 
+  /// Creates a [ProveWebView] instance from a [ProveConfiguration] config
+  /// for integrating Mono Prove within the application
+  ProveWebView.config({
+    required ProveConfiguration config,
+    this.showLogs = false,
+    super.key,
+  })  : sessionId = config.sessionId,
+        onSuccess = config.onSuccess,
+        reference = config.reference,
+        onEvent = config.onEvent,
+        onClose = config.onClose;
+
+  /// The session ID for the current Mono Prove session.
   final String sessionId;
 
+  /// Callback triggered when the user's identity has been successfully verified.
   final VoidCallback onSuccess;
 
-  /// This optional string is used as a reference to the current
-  /// instance of Mono Connect. It will be passed to the data object
-  /// in all onEvent callbacks.
+  /// An optional reference to the current instance of Mono Prove.
+  /// This value will be included in all [onEvent] callbacks for tracking purposes.
   final String? reference;
 
+  /// Callback triggered whenever an event is dispatched by the Mono Prove widget.
   final void Function(ProveEvent event)? onEvent;
 
+  /// Callback triggered when the Mono Prove widget is closed.
   final VoidCallback? onClose;
 
+  /// Enables or disables detailed debug logging.
+  /// Defaults to `false`.
   final bool showLogs;
 
   @override
@@ -46,6 +66,18 @@ class ProveWebView extends StatefulWidget {
 class _ProveWebViewState extends State<ProveWebView> {
   late WebViewController _webViewController;
   ValueNotifier<bool> isLoading = ValueNotifier(true);
+
+  final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
+    Factory<TapGestureRecognizer>(
+      () => TapGestureRecognizer()
+        ..onTapDown = (tap) {
+          SystemChannels.textInput.invokeMethod(
+            'TextInput.hide',
+          );
+        },
+    ),
+    const Factory(EagerGestureRecognizer.new),
+  };
 
   @override
   void initState() {
@@ -62,17 +94,7 @@ class _ProveWebViewState extends State<ProveWebView> {
           children: [
             WebViewWidget(
               controller: _webViewController,
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}
-                ..add(
-                  Factory<TapGestureRecognizer>(
-                    () => TapGestureRecognizer()
-                      ..onTapDown = (tap) {
-                        SystemChannels.textInput.invokeMethod(
-                          'TextInput.hide',
-                        );
-                      },
-                  ),
-                ),
+              gestureRecognizers: gestureRecognizers,
             ),
             ValueListenableBuilder<bool>(
               valueListenable: isLoading,
@@ -138,6 +160,7 @@ class _ProveWebViewState extends State<ProveWebView> {
               final event = ProveEvent(
                 type: EventType.opened,
                 data: EventData(
+                  eventType: Constants.OPENED_EVENT,
                   reference: widget.reference,
                   timestamp: DateTime.now(),
                 ),

@@ -1,28 +1,37 @@
 import 'package:mono_prove/src/constants.dart';
 import 'package:mono_prove/src/utils/extensions.dart';
 
-/// Events dispatched by the Mono Prove Widget
+/// Event types dispatched by the Mono Prove Widget.
 enum EventType {
-  /// ["mono.prove.widget_opened"] Triggered when the user opens the Prove Widget.
+  /// Triggered when the user opens the Prove Widget.
+  /// Event value: ["mono.prove.widget_opened"].
   opened(Constants.OPENED_EVENT),
 
-  /// ["mono.prove.widget.closed"] Triggered when the user closes the Prove Widget.
+  /// Triggered when the user closes the Prove Widget.
+  /// Event value: ["mono.prove.widget.closed"].
   closed(Constants.CLOSED_EVENT),
 
-  /// ["mono.prove.identity_verified"] Triggered when the user successfully verifies their identity.
+  /// Triggered when the user successfully verifies their identity.
+  /// Event value: ["mono.prove.identity_verified"].
   identityVerified(Constants.VERIFIED_EVENT),
 
-  /// ["mono.prove.error_occurred"] ERROR	Triggered when the widget reports an error.
+  /// Triggered when the widget reports an error.
+  /// Event value: ["mono.prove.error_occurred"].
   error(Constants.ERROR_EVENT),
 
-  /// An unexpected event
+  /// Represents an unexpected or unknown event.
+  /// Event value: [Constants.UNKNOWN].
   unknown(Constants.UNKNOWN);
 
   const EventType(this.value);
 
+  /// The string representation of the event type.
   final String value;
 
-  /// Convert a string value to a Prove event
+  /// Converts a string value to a corresponding [EventType].
+  ///
+  /// If the value does not match any known [EventType],
+  /// [EventType.unknown] is returned.
   static EventType fromValue(String value) {
     final type = EventType.values.firstWhereOrNull((e) => e.value == value);
 

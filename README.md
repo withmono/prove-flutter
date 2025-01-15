@@ -72,31 +72,33 @@ State the camera permission in your `android/app/src/main/AndroidManifest.xml` f
 import 'package:mono_prove/mono_prove.dart';
 ```
 
-#### Configure Prove Widget
+#### Create a ProveConfiguration
 ```dart
-void showProveWidget(BuildContext context) {
-    MonoProve().launch(
-      context,
-      'PRV...',
-      onSuccess: () {
-        print('Successfully verified.');
-      },
-      showLogs: true,
-      reference: 'testref',
-      onEvent: (event) {
-        print(event);
-      },
-      onClose: () {
-        print('Widget closed.');
-      },
-    );
-  }
+final config = ProveConfiguration(
+  sessionId: 'PRV...',
+  onSuccess: () {
+    print('Successfully verified.');
+  },
+  reference: 'testref',
+  onEvent: (event) {
+    print(event);
+  },
+  onClose: () {
+    print('Widget closed.');
+  },
+);
 ```
 
-#### Show the Widget on launch
+#### Show the Widget
 ```dart
 ElevatedButton(
-    onPressed: () => showProveWidget(context),
+    onPressed: () {
+      MonoProve.launch(
+        context,
+        config: config,
+        showLogs: true,
+      )
+    },
     child: Text('Launch Prove Widget'),
 )
 ```
@@ -115,13 +117,12 @@ ElevatedButton(
 This is the session ID returned after calling the [initiate endpoint](https://docs.mono.co/api).
 
 ```dart
-MonoProve().launch(
-  context,
-  'PRV...', // sessionId
+final config = ProveConfiguration(
+  sessionId: 'PRV...', // sessionId
   onSuccess: () {
     print('Successfully verified.');
   }, // onSuccess function
-)
+);
 ```
 
 ### <a name="onSuccess"></a> `onSuccess`
@@ -130,13 +131,12 @@ MonoProve().launch(
 The closure is called when a user has successfully verified their identity.
 
 ```dart
-MonoProve().launch(
-  context,
-  'PRV...', // sessionId
+final config = ProveConfiguration(
+  sessionId: 'PRV...', // sessionId
   onSuccess: () {
     print('Successfully verified.');
   }, // onSuccess function
-)
+);
 ```
 
 ### <a name="onClose"></a> `onClose`
@@ -145,16 +145,15 @@ MonoProve().launch(
 The optional closure is called when a user has specifically exited the Mono Prove flow. It does not take any arguments.
 
 ```dart
-MonoProve().launch(
-  context,
-  'PRV...', // sessionId
+final config = ProveConfiguration(
+  sessionId: 'PRV...', // sessionId
   onSuccess: () {
     print('Successfully verified.');
   }, // onSuccess function
   onClose: () {
     print('Widget closed.');
   }, // onClose function
-)
+);
 ```
 
 ### <a name="onEvent"></a> `onEvent`
@@ -165,16 +164,15 @@ This optional closure is called when certain events in the Mono Prove flow have 
 See the [ProveEvent](#ProveEvent) object below for details.
 
 ```dart
-MonoProve().launch(
-  context,
-  'PRV...', // sessionId
+final config = ProveConfiguration(
+  sessionId: 'PRV...', // sessionId
   onSuccess: () {
     print('Successfully verified.');
   }, // onSuccess function
   onEvent: (event) {
-    logger(event);
+    print(event);
   }, // onEvent function
-)
+);
 ```
 
 ### <a name="reference"></a> `reference`
@@ -183,17 +181,49 @@ MonoProve().launch(
 When passing a reference to the configuration it will be passed back on all onEvent calls.
 
 ```dart
-MonoProve().launch(
-  context,
-  'PRV...', // sessionId
+final config = ProveConfiguration(
+  sessionId: 'PRV...', // sessionId
   onSuccess: () {
     print('Successfully verified.');
   }, // onSuccess function
   reference: 'random_string',
-)
+);
 ```
 
 ## API Reference
+
+### MonoProve Object
+
+The MonoProve Object exposes methods that take a [ProveConfiguration](#ProveConfiguration) for easy interaction with the Mono Prove Widget.
+
+### <a name="ProveConfiguration"></a> ProveConfiguration
+
+The configuration option is passed to the different launch methods from the MonoProve Object.
+
+```dart
+sessionId: String // required
+onSuccesss: VoidCallback // required
+onClose: VoidCallback // optional
+onEvent: void Function(ProveEvent) // optional
+reference: String // optional
+```
+#### Usage
+
+```dart
+final config = ProveConfiguration(
+  sessionId: 'PRV...',
+  onSuccess: () {
+    print('Successfully verified.');
+  },
+  reference: 'testref',
+  onEvent: (event) {
+    print(event);
+  },
+  onClose: () {
+    print('Widget closed.');
+  },
+);
+```
 
 ### <a name="proveEvent"></a> ProveEvent
 
@@ -212,6 +242,7 @@ Event types correspond to the `type` key returned by the event data. Possible op
 The data object of type EventData returned from the onEvent callback.
 
 ```dart
+eventType: String // type of event mono.prove.xxxx
 reference: String? // reference passed through the prove config
 pageName: String? // name of page the widget exited on
 errorType: String? // error thrown by widget

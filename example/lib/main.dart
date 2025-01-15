@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mono_prove/mono_prove.dart';
 
@@ -22,48 +21,49 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final config = ProveConfiguration(
+    sessionId: 'PRV...',
+    onSuccess: () {
+      print('Successfully verified.');
+    },
+    reference: DateTime.now().millisecondsSinceEpoch.toString(),
+    onEvent: (event) {
+      print(event);
+    },
+    onClose: () {
+      print('Widget closed.');
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
+        title: Text(widget.title),
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => _showProveWidget(context),
+          onPressed: () {
+            MonoProve.launch(
+              context,
+              config: config,
+              showLogs: true,
+            );
+          },
           child: Text('Launch Prove Widget'),
         ),
       ),
     );
-  }
-
-  void _showProveWidget(BuildContext context) {
-    MonoProve().launch(
-      context,
-      'PRV...', // sessionId
-      onSuccess: () {
-        logger('Successfully verified.');
-      },
-      showLogs: true,
-      reference: DateTime.now().millisecondsSinceEpoch.toString(),
-      onEvent: (event) {
-        logger(event);
-      },
-      onClose: () {
-        logger('Widget closed.');
-      },
-    );
-  }
-
-  void logger(Object? object) {
-    if (kDebugMode) {
-      print(object);
-    }
   }
 }

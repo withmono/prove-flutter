@@ -1,4 +1,6 @@
 extension IterableExtension<T> on Iterable<T> {
+  /// Returns the first element in the iterable that satisfies the [test], or
+  /// `null` if no such element is found.
   T? firstWhereOrNull(bool Function(T element) test) {
     for (final element in this) {
       if (test(element)) return element;

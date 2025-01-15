@@ -4,4 +4,5 @@ linter:
   rules:
     prefer_single_quotes: true
     sort_pub_dependencies: true
+    public_member_api_docs: false
     lines_longer_than_80_chars: false
