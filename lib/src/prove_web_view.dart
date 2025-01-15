@@ -107,6 +107,7 @@ class _ProveWebViewState extends State<ProveWebView> {
     _webViewController
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..enableZoom(true)
+      ..setBackgroundColor(Colors.transparent)
       ..addJavaScriptChannel(
         Constants.jsChannel,
         onMessageReceived: (JavaScriptMessage data) {
@@ -180,6 +181,14 @@ class _ProveWebViewState extends State<ProveWebView> {
 
       if (result == PermissionStatus.granted) {
         await loadRequest();
+      } else {
+        const snackBar = SnackBar(
+          content: Text('Permissions not granted'),
+        );
+        if (mounted) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       }
     } else {
       await loadRequest();
