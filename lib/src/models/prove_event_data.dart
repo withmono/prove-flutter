@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class EventData extends Equatable {
-  const EventData({
+class ProveEventData extends Equatable {
+  const ProveEventData({
     required this.eventType,
     required this.timestamp,
     this.reference,
@@ -11,11 +11,11 @@ class EventData extends Equatable {
     this.reason,
   });
 
-  /// Creates an [EventData] instance from a [Map].
+  /// Creates an [ProveEventData] instance from a [Map].
   ///
   /// If a `timestamp` is provided, it is parsed as milliseconds since epoch.
   /// Defaults to the current time if `timestamp` is absent.
-  EventData.fromMap(Map<String, dynamic> map)
+  ProveEventData.fromMap(Map<String, dynamic> map)
       : eventType = map['type'] as String? ?? 'UNKNOWN',
         reference = map['reference'] as String?,
         pageName = map['pageName'] as String?,
@@ -47,7 +47,7 @@ class EventData extends Equatable {
   /// The timestamp of the event as a [DateTime] object.
   final DateTime timestamp;
 
-  /// Converts the [EventData] instance to a [Map].
+  /// Converts the [ProveEventData] instance to a [Map].
   ///
   /// The `timestamp` is represented as milliseconds since epoch.
   Map<String, dynamic> toMap() {
@@ -77,5 +77,5 @@ class EventData extends Equatable {
 
   @override
   String toString() =>
-      'EventData(eventType: $eventType, reference: $reference, pageName: $pageName, errorType: $errorType, errorMessage: $errorMessage, reason: $reason, timestamp: $timestamp)';
+      'ProveEventData(eventType: $eventType, reference: $reference, pageName: $pageName, errorType: $errorType, errorMessage: $errorMessage, reason: $reason, timestamp: $timestamp)';
 }

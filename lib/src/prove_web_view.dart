@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mono_prove/src/constants.dart';
 import 'package:mono_prove/src/models/models.dart';
+import 'package:mono_prove/src/utils/constants.dart';
 import 'package:mono_prove/src/utils/extensions.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -158,8 +158,8 @@ class _ProveWebViewState extends State<ProveWebView> {
 
             if (widget.onEvent != null) {
               final event = ProveEvent(
-                type: EventType.opened,
-                data: EventData(
+                type: ProveEventType.opened,
+                data: ProveEventData(
                   eventType: Constants.OPENED_EVENT,
                   reference: widget.reference,
                   timestamp: DateTime.now(),
@@ -185,10 +185,10 @@ class _ProveWebViewState extends State<ProveWebView> {
         ),
       );
 
-    confirmPermissionsAndLoadUrl();
+    confirmPermissionsAndLoadUri();
   }
 
-  Future<void> confirmPermissionsAndLoadUrl() async {
+  Future<void> confirmPermissionsAndLoadUri() async {
     bool isCameraGranted;
 
     if (!kIsWeb) {
@@ -202,20 +202,17 @@ class _ProveWebViewState extends State<ProveWebView> {
     if (!isCameraGranted) {
       final result = await Permission.camera.request();
 
-      if (result == PermissionStatus.granted) {
-        await loadRequest();
-      } else {
+      if (result != PermissionStatus.granted) {
         const snackBar = SnackBar(
           content: Text('Permissions not granted'),
         );
         if (mounted) {
-          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       }
-    } else {
-      await loadRequest();
     }
+
+    await loadRequest();
   }
 
   Future<void> loadRequest() {
@@ -243,7 +240,7 @@ class _ProveWebViewState extends State<ProveWebView> {
         switch (type) {
           case 'mono.prove.identity_verified':
             Navigator.pop(context);
-            if (widget.onEvent != null) widget.onSuccess();
+            widget.onSuccess();
           case 'mono.prove.widget.closed':
             Navigator.pop(context);
             if (mounted && widget.onClose != null) widget.onClose?.call();

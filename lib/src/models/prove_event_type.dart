@@ -1,8 +1,8 @@
-import 'package:mono_prove/src/constants.dart';
+import 'package:mono_prove/src/utils/constants.dart';
 import 'package:mono_prove/src/utils/extensions.dart';
 
 /// Event types dispatched by the Mono Prove Widget.
-enum EventType {
+enum ProveEventType {
   /// Triggered when the user opens the Prove Widget.
   /// Event value: ["mono.prove.widget_opened"].
   opened(Constants.OPENED_EVENT),
@@ -23,18 +23,18 @@ enum EventType {
   /// Event value: [Constants.UNKNOWN].
   unknown(Constants.UNKNOWN);
 
-  const EventType(this.value);
+  const ProveEventType(this.value);
 
   /// The string representation of the event type.
   final String value;
 
-  /// Converts a string value to a corresponding [EventType].
+  /// Converts a string value to a corresponding [ProveEventType].
   ///
-  /// If the value does not match any known [EventType],
-  /// [EventType.unknown] is returned.
-  static EventType fromValue(String value) {
-    final type = EventType.values.firstWhereOrNull((e) => e.value == value);
+  /// If the value does not match any known [ProveEventType],
+  /// [ProveEventType.unknown] is returned.
+  static ProveEventType fromValue(String value) {
+    final type = ProveEventType.values.firstWhereOrNull((e) => e.value == value);
 
-    return type ?? EventType.unknown;
+    return type ?? ProveEventType.unknown;
   }
 }

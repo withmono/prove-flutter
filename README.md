@@ -227,7 +227,7 @@ final config = ProveConfiguration(
 
 ### <a name="proveEvent"></a> ProveEvent
 
-#### <a name="type"></a> `type: EventType`
+#### <a name="type"></a> `type: ProveEventType`
 
 Event types correspond to the `type` key returned by the event data. Possible options are in the table below.
 
@@ -238,8 +238,8 @@ Event types correspond to the `type` key returned by the event data. Possible op
 | identityVerified | Triggered when the user successfully verifies their identity. |
 | error             | Triggered when the widget reports an error.                   |
 
-#### <a name="dataObject"></a> `data: EventData`
-The data object of type EventData returned from the onEvent callback.
+#### <a name="dataObject"></a> `data: ProveEventData`
+The data object of type ProveEventData returned from the onEvent callback.
 
 ```dart
 eventType: String // type of event mono.prove.xxxx
@@ -252,10 +252,10 @@ timestamp: Date // timestamp of the event as a Date object
 ```
 
 ## Support
-If you're having general trouble with Mono Prove Android SDK or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
+If you're having general trouble with Mono Prove Flutter SDK or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
 
 ## Contributing
-If you would like to contribute to the Mono Prove Android SDK, please make sure to read our [contributor guidelines](https://github.com/withmono/prove-flutter/tree/main/CONTRIBUTING.md).
+If you would like to contribute to the Mono Prove Flutter SDK, please make sure to read our [contributor guidelines](https://github.com/withmono/prove-flutter/tree/main/CONTRIBUTING.md).
 
 
 ## License

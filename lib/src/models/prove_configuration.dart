@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mono_prove/src/models/prove_event.dart';
 
 class ProveConfiguration {

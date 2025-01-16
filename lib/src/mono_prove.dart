@@ -14,7 +14,7 @@ class MonoProve {
   /// This method is used to initialize and return the `ProveWebView` widget with the specified
   /// [config] and optional [showLogs] parameter. The `ProveWebView` widget is only available
   /// on non-web platforms.
-  static Widget webView(
+  static Widget _webView(
     ProveConfiguration config, {
     bool showLogs = false,
   }) {
@@ -25,7 +25,7 @@ class MonoProve {
       );
     }
 
-    return const SizedBox();
+    return const SizedBox(child: Text('Web is not supported'));
   }
 
   /// Launches the Mono Prove WebView widget in a new full-screen page.
@@ -45,7 +45,7 @@ class MonoProve {
   ///   onSuccess: () => print('Success!'),
   /// );
   ///
-  /// MonoProve().launch(context, config: config);
+  /// MonoProve.launch(context, config: config);
   /// ```
   static void launch(
     BuildContext context, {
@@ -55,7 +55,7 @@ class MonoProve {
     Navigator.push(
       context,
       MaterialPageRoute<dynamic>(
-        builder: (c) => webView(
+        builder: (c) => _webView(
           config,
           showLogs: showLogs,
         ),
@@ -70,7 +70,7 @@ class MonoProve {
   ///
   /// ### Example:
   /// ```dart
-  /// MonoProve().launchDialog(context, config: config);
+  /// MonoProve.launchDialog(context, config: config);
   /// ```
   static void launchDialog(
     BuildContext context, {
@@ -83,7 +83,7 @@ class MonoProve {
         padding: const EdgeInsets.all(24),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(24),
-          child: webView(
+          child: _webView(
             config,
             showLogs: showLogs,
           ),
@@ -98,7 +98,7 @@ class MonoProve {
   ///
   /// ### Example:
   /// ```dart
-  /// MonoProve().launchModalBottomSheet(context, config: config);
+  /// MonoProve.launchModalBottomSheet(context, config: config);
   /// ```
   static void launchModalBottomSheet(
     BuildContext context, {
@@ -115,7 +115,7 @@ class MonoProve {
         ),
       ),
       clipBehavior: Clip.hardEdge,
-      builder: (_) => webView(
+      builder: (_) => _webView(
         config,
         showLogs: showLogs,
       ),

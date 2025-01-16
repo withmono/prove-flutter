@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mono_prove/mono_prove.dart';
 
@@ -34,14 +36,14 @@ class _MyHomePageState extends State<MyHomePage> {
   final config = ProveConfiguration(
     sessionId: 'PRV...',
     onSuccess: () {
-      print('Successfully verified.');
+      log('Successfully verified.');
     },
     reference: DateTime.now().millisecondsSinceEpoch.toString(),
     onEvent: (event) {
-      print(event);
+      log(event.toString());
     },
     onClose: () {
-      print('Widget closed.');
+      log('Widget closed.');
     },
   );
 

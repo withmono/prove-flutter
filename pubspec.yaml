@@ -1,9 +1,9 @@
 name: mono_prove
-description: The Mono Prove SDK is a quick and secure way to onboard your users from within your Flutter app. Mono Prove is a customer onboarding product that offers businesses faster customer onboarding and prevents fraudulent sign-ups, powered by the MDN and facial recognition technology.
+description: The Mono Prove SDK is a quick and secure way to onboard your users from within your Flutter app.
 homepage: https://docs.mono.co/docs
 repository: https://github.com/withmono/prove-flutter
 issue_tracker: https://github.com/withmono/prove-flutter/issues
-version: 1.0.0-alpha.1
+version: 1.0.0-alpha.2
 
 
 environment:
