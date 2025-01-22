@@ -252,7 +252,7 @@ timestamp: Date // timestamp of the event as a Date object
 ```
 
 ## Support
-If you're having general trouble with Mono Prove Flutter SDK or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
+If you're having general trouble with Mono Prove Flutter SDK or your Mono integration, please reach out to us at <support@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
 
 ## Contributing
 If you would like to contribute to the Mono Prove Flutter SDK, please make sure to read our [contributor guidelines](https://github.com/withmono/prove-flutter/tree/main/CONTRIBUTING.md).
