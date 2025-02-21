@@ -1,3 +1,7 @@
+# 1.0.0
+
+- feat: initial release 🎉
+
 # 1.0.0-alpha.2
 
 - Load webview even if permissions are denied

@@ -5,7 +5,7 @@ class Constants {
 
   static const String urlScheme = 'https';
 
-  static const String proveHost = 'develop.d121npziv08191.amplifyapp.com';
+  static const String proveHost = 'prove.mono.co';
 
   static const String jsChannel = 'MonoClientInterface';
 
