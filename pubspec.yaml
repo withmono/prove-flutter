@@ -3,7 +3,7 @@ description: The Mono Prove SDK is a quick and secure way to onboard your users 
 homepage: https://docs.mono.co/docs
 repository: https://github.com/withmono/prove-flutter
 issue_tracker: https://github.com/withmono/prove-flutter/issues
-version: 1.0.0
+version: 1.1.0
 
 
 environment:
@@ -14,6 +14,8 @@ dependencies:
   equatable: ^2.0.7
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   permission_handler: ^11.3.1
   webview_flutter: ^4.10.0
   webview_flutter_wkwebview: ^3.17.0
@@ -22,3 +24,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   very_good_analysis: ^6.0.0
+
+flutter:
+  plugin:
+    implements: mono_prove
+    platforms:
+      web:
+        pluginClass: MonoProveWeb
+        fileName: src/mono_prove_web.dart

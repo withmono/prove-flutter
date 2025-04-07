@@ -7,6 +7,10 @@ enum ProveEventType {
   /// Event value: ["mono.prove.widget_opened"].
   opened(Constants.OPENED_EVENT),
 
+  /// Triggered when the the Prove Widget is loaded.
+  /// Event value: ["mono.prove.widget_loaded"].
+  loaded(Constants.LOADED_EVENT),
+
   /// Triggered when the user closes the Prove Widget.
   /// Event value: ["mono.prove.widget.closed"].
   closed(Constants.CLOSED_EVENT),

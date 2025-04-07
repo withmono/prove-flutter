@@ -11,7 +11,7 @@ class ProveEvent extends Equatable {
   /// Creates a [ProveEvent] instance from a [Map].
   ProveEvent.fromMap(Map<String, dynamic> map)
       : type = ProveEventType.fromValue(
-          map['type'] as String? ?? Constants.UNKNOWN,
+          map['type'] as String? ?? (map['data'] as Map?)?['type'] as String? ?? Constants.UNKNOWN,
         ),
         data = ProveEventData.fromMap(
           map['data'] as Map<String, dynamic>? ?? {},

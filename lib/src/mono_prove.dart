@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mono_prove/mono_prove.dart';
 
 /// The Mono Prove SDK is a quick and secure way to onboard your users from within your Flutter app.
@@ -9,6 +12,8 @@ import 'package:mono_prove/mono_prove.dart';
 /// This class serves as the entry point for interacting with the Mono Prove SDK in Flutter,
 /// offering multiple ways to present the Mono Prove WebView widget to users.
 class MonoProve {
+  static MethodChannel channel = const MethodChannel('flutter.mono.co/prove');
+
   /// Returns the Mono Prove WebView widget configured with the provided [ProveConfiguration].
   ///
   /// This method is used to initialize and return the `ProveWebView` widget with the specified
@@ -18,14 +23,45 @@ class MonoProve {
     ProveConfiguration config, {
     bool showLogs = false,
   }) {
-    if (!kIsWeb) {
-      return ProveWebView.config(
-        config: config,
-        showLogs: showLogs,
-      );
-    }
+    return ProveWebView.config(
+      config: config,
+      showLogs: showLogs,
+    );
+  }
 
-    return const SizedBox(child: Text('Web is not supported'));
+  static void _open(ProveConfiguration config) {
+    channel
+      ..invokeMethod('setup', {
+        'requestId': config.sessionId,
+      })
+      ..setMethodCallHandler((call) async {
+        switch (call.method) {
+          case 'onClose':
+            config.onClose?.call();
+
+            return true;
+          case 'onSuccess':
+            config.onSuccess();
+
+            return true;
+          case 'onEvent':
+            if (config.onEvent != null) {
+              final args = (call.arguments as Map<Object?, Object?>)
+                  .map<String, Object?>(
+                (key, value) => MapEntry('$key', value),
+              );
+
+              final data = {
+                ...(jsonDecode(args['data'].toString())
+                    as Map<String, dynamic>),
+                'type': args['eventName'],
+              };
+
+              config.onEvent!(ProveEvent.fromMap({...args, 'data': data}));
+            }
+            return true;
+        }
+      });
   }
 
   /// Launches the Mono Prove WebView widget in a new full-screen page.
@@ -52,6 +88,10 @@ class MonoProve {
     required ProveConfiguration config,
     bool showLogs = false,
   }) {
+    if (kIsWeb) {
+      return _open(config);
+    }
+
     Navigator.push(
       context,
       MaterialPageRoute<dynamic>(
@@ -77,6 +117,10 @@ class MonoProve {
     required ProveConfiguration config,
     bool showLogs = false,
   }) {
+    if (kIsWeb) {
+      throw UnsupportedError('Web is not supported for this method. Please use MonoProve.launch(context, config: config) for web.');
+    }
+
     showDialog<dynamic>(
       context: context,
       builder: (_) => Padding(
@@ -105,6 +149,10 @@ class MonoProve {
     required ProveConfiguration config,
     bool showLogs = false,
   }) {
+    if (kIsWeb) {
+      throw UnsupportedError('Web is not supported for this method. Please use MonoProve.launch(context, config: config) for web.');
+    }
+
     showModalBottomSheet<dynamic>(
       context: context,
       useSafeArea: true,
