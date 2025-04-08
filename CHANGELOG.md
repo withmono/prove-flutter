@@ -1,3 +1,7 @@
+# 1.1.0
+
+- feat: add support for Flutter on the web
+
 # 1.0.0
 
 - feat: initial release 🎉
