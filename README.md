@@ -103,6 +103,31 @@ ElevatedButton(
 )
 ```
 
+#### For Web Support
+
+- Add the following to your `index.html` file:
+
+```html
+<script src="https://prove.mono.co/prove.js" async></script>
+<script>
+    function setupMonoProve(requestId, config) {
+      const options = {
+        requestId,
+        config,
+        onSuccess: onSuccess,
+        onEvent: onEvent,
+        onClose: onClose,
+      };
+
+      const MonoProve = new Prove(options);
+
+      MonoProve.setup(config);
+
+      MonoProve.open();
+    }
+</script>
+```
+
 ## Configuration Options
 
 - [`sesssionId`](#sesssionId)
@@ -234,6 +259,7 @@ Event types correspond to the `type` key returned by the event data. Possible op
 | Event type        | Description                                                   |
 |-------------------|---------------------------------------------------------------|
 | opened            | Triggered when the user opens the Prove Widget.               |
+| loaded            | Triggered when the the Prove Widget is loaded.              |
 | closed            | Triggered when the user closes the Prove Widget.              |
 | identityVerified | Triggered when the user successfully verifies their identity. |
 | error             | Triggered when the widget reports an error.                   |
